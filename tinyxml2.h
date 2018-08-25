@@ -588,15 +588,7 @@ public:
                || ch == '-';
     }
 
-    inline static bool StringEqual( const char* p, const char* q, int nChar=INT_MAX )  {
-        if ( p == q ) {
-            return true;
-        }
-        TIXMLASSERT( p );
-        TIXMLASSERT( q );
-        TIXMLASSERT( nChar >= 0 );
-        return strncmp( p, q, nChar ) == 0;
-    }
+    static bool StringEqual(const char* p, const char* q, int nChar = INT_MAX, bool caseSensitive=true);
 
     inline static bool IsUTF8Continuation( char p ) {
         return ( p & 0x80 ) != 0;

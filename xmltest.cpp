@@ -917,6 +917,22 @@ int main( int argc, const char ** argv )
 			}
 			XMLTest("Attribute: float", 100.0f, element->FloatAttribute("attrib"), true);
 		}
+        {
+            {
+                element->SetAttribute("attrib", "True");
+                bool v = false;
+                XMLError queryResult = element->QueryBoolAttribute("attrib", &v);
+                XMLTest("Attribute: bool", XML_SUCCESS, queryResult, true);
+                XMLTest("Attribute: bool", true, v, true);
+            }
+            {
+                element->SetAttribute("attrib", "False");
+                bool v = false;
+                XMLError queryResult = element->QueryBoolAttribute("attrib", &v);
+                XMLTest("Attribute: bool", XML_SUCCESS, queryResult, true);
+                XMLTest("Attribute: bool", false, v, true);
+            }
+        }
 		{
 			element->SetText(BIG);
 			int64_t v = 0;

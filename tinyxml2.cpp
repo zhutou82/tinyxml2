@@ -372,6 +372,26 @@ const char* StrPair::GetStr()
 const char* XMLUtil::writeBoolTrue  = "true";
 const char* XMLUtil::writeBoolFalse = "false";
 
+bool XMLUtil::StringEqual(const char* p, const char* q, int nChar, bool caseSensitive)
+{
+    if (p == q) {
+        return true;
+    }
+    TIXMLASSERT(p);
+    TIXMLASSERT(q);
+    TIXMLASSERT(nChar >= 0);
+    if (caseSensitive)
+        return strncmp(p, q, nChar) == 0;
+
+    for (int i = 0; i < nChar; i++, p++, q++) {
+        if (*p == 0 && *q == 0)
+            return true;
+        if (tolower(*p) != tolower(*q))
+            return false;
+    }
+    return true;
+}
+
 void XMLUtil::SetBoolSerialization(const char* writeTrue, const char* writeFalse)
 {
 	static const char* defTrue  = "true";
@@ -605,18 +625,18 @@ bool XMLUtil::ToUnsigned( const char* str, unsigned *value )
     return false;
 }
 
-bool XMLUtil::ToBool( const char* str, bool* value )
+bool XMLUtil::ToBool(const char* str, bool* value)
 {
     int ival = 0;
-    if ( ToInt( str, &ival )) {
-        *value = (ival==0) ? false : true;
+    if (ToInt(str, &ival)) {
+        *value = (ival == 0) ? false : true;
         return true;
     }
-    if ( StringEqual( str, "true" ) ) {
+    if (StringEqual(str, "true", INT_MAX, false)) {
         *value = true;
         return true;
     }
-    else if ( StringEqual( str, "false" ) ) {
+    else if (StringEqual(str, "false", INT_MAX, false)) {
         *value = false;
         return true;
     }
