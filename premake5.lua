@@ -1,20 +1,23 @@
+--
+-- Requires: Premake 5 (https://premake.github.io/)
+-- Usage: premake5 --file=premake5.lua [project / makefile format, refer to premake5 --help] --target=[target from below]
+--
+-- projects
 project "tinyxml2"
-	kind "StaticLib"
 	language "C++"
+	kind "staticlib"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
+	files {
 		"tinyxml2.h",
 		"tinyxml2.cpp"
 	}
 
-	filter "system:windows"
-		systemversion "10.0.14393.0"
-		staticruntime "On"
+	filter "configurations:Debug"
+		runtime "Debug"
+        buildoptions "/MTd"
+		symbols "on"
 
 	filter "configurations:Release"
 		runtime "Release"
+        buildoptions "/MT"
 		optimize "on"
